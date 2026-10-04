@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>বাংলাদেশ ইনকাম হাব - প্রিমিয়াম ডিজিটাল ট্রেডিং পোর্টাল</title>
+  
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+  
+  <!-- Official Tailwind CSS Play CDN (Optimized v3/v4 engine compatibility for offline/dynamic render) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Three.js Library CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- Lucide Icons Custom CSS/JS Wrapper -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    // Configure Custom Tailwind Theme & Palette matching our premium Web3 aesthetic
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Space Grotesk', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              cyber: '#00BFFF',
+              pulse: '#4FC3F7',
+              neon: '#00E5FF',
+              darkBg: '#050816',
+            }
+          },
+          boxShadow: {
+            cyberGlow: '0 0 25px rgba(0, 191, 255, 0.2)',
+            glassGlow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Premium background custom treatments */
+    html, body {
+      background-color: #050816;
+      color: #f1f5f9;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      font-family: 'Inter', sans-serif;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #02050f;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(0, 191, 255, 0.25);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 191, 255, 0.55);
+    }
+
+    /* Elegant physical frosted glass container classes */
+    .glossy-glass {
+      background: rgba(10, 15, 30, 0.55);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+    }
+
+    /* Subliminal color gradient overlays */
+    .radial-cyber-spotlight {
+      background: radial-gradient(circle at 50% 50%, rgba(0, 191, 255, 0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Custom cursor implementation */
+    #custom-pointer {
+      width: 32px;
+      height: 32px;
+      border: 1px solid rgba(0, 229, 255, 0.4);
+      background: rgba(0, 229, 255, 0.03);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s;
+      z-index: 9999;
+      display: none;
+    }
+    #custom-dot {
+      width: 6px;
+      height: 6px;
+      background: #00E5FF;
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      box-shadow: 0 0 10px #00E5FF;
+      display: none;
+    }
+    @media (min-width: 1024px) {
+      #custom-pointer, #custom-dot {
+        display: block;
+      }
+      body {
+        cursor: none;
+      }
+      a, button, select {
+        cursor: none;
+      }
+    }
+  </style>
+</head>
+<body class="relative">
+
+  <!-- Custom Cinematic Mouse Tracking Cursors -->
+  <div id="custom-pointer"></div>
+  <div id="custom-dot"></div>
+
+  <!-- Background Canvas Container for independent Three.js Candlestick Space -->
+  <div class="fixed inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
+    <!-- WebGL output renders here -->
+    <canvas id="forex-bg-canvas" class="w-full h-full block opacity-85"></canvas>
+    
+    <!-- Immersive gradient lights behind text -->
+    <div class="absolute inset-0 radial-cyber-spotlight"></div>
+    <div class="absolute top-[20%] left-[10%] w-[350px] h-[350px] rounded-full bg-cyan-500/5 blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-[20%] right-[15%] w-[450px] h-[450px] rounded-full bg-blue-500/5 blur-[150px] pointer-events-none"></div>
+  </div>
+
+  <!-- Main Scrollable Core Content Interface wrapper (perfect layout match) -->
+  <div class="relative z-10 w-full min-h-screen flex flex-col justify-between">
+    
+    <!-- Top Global Promotional Bar -->
+    <div id="promo-banner" class="w-full bg-[#00BFFF]/12 border-b border-[#00BFFF]/20 py-2.5 px-4 text-center text-xs text-[#00E5FF] font-medium tracking-wide z-50 sticky top-0 backdrop-blur-md">
+      <span class="font-sans">🔥 ঈদ মেগা ডিসকাউন্ট! সকল ইন্ডিকেটর এবং মেন্টরশিপের ওপর ৪০% পর্যন্ত নিশ্চিত ছাড়! অফারটি সীমিত সময়ের জন্য!</span>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="w-full border-b border-white/5 py-4 px-6 md:px-12 glossy-glass transition-all duration-300">
+      <div class="max-w-7xl mx-auto flex items-center justify-between">
+        
+        <!-- Brand Signature -->
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-cyber to-brand-pulse flex items-center justify-center shadow-lg shadow-cyan-500/20">
+            <i data-lucide="trending-up" class="w-4.5 h-4.5 text-brand-darkBg stroke-[3]"></i>
+          </div>
+          <div>
+            <span class="font-display font-bold text-sm tracking-wide text-white uppercase">বাংলাদেশ ইনকাম হাব</span>
+            <span class="block text-[9px] font-sans text-cyan-400/85 tracking-wider font-semibold uppercase">প্রিমিয়াম ডিজিটাল ট্রেডিং পোর্টাল</span>
+          </div>
+        </div>
+
+        <!-- Language Controls & Portal Triggers -->
+        <div class="flex items-center gap-4">
+          <a href="https://t.me/bangladesh_income_hub_admin" target="_blank" class="hidden md:inline-flex items-center gap-2 px-4 py-2 border border-[#00BFFF]/30 rounded-xl bg-[#00BFFF]/5 hover:bg-[#00BFFF]/10 text-xs font-bold text-white tracking-wide transition-all duration-300">
+            <i data-lucide="users" class="w-3.5 h-3.5 text-brand-cyber"></i>
+            <span>ক্লাইন্ট পোর্টাল</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- IMMERSIVE HERO AREA LAYERED OVER THE CANDLESTICK SPACE -->
+    <main class="w-full flex-grow flex flex-col justify-center py-20 px-4 md:px-8 max-w-7xl mx-auto">
+      
+      <!-- Slogans & Title Cluster -->
+      <div class="text-center space-y-8 max-w-4xl mx-auto">
+        
+        <!-- Live Trading Badges in Motion -->
+        <div class="flex flex-wrap items-center gap-3 justify-center mb-2">
+          <div class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#00BFFF]/10 border border-[#00BFFF]/30 text-[#00BFFF] text-[10px] font-black tracking-wider uppercase font-sans shadow-[0_0_15px_rgba(0,191,255,0.15)] align-middle cursor-default hover:scale-[1.02] transition-transform duration-300">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#4FC3F7] animate-pulse"></i>
+            <span>অ্যাডভান্সড ট্রেডিং ও ডিজিটাল গ্রোথ হাব</span>
+          </div>
+
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-white text-[9.5px] font-bold tracking-widest uppercase font-mono shadow-[0_4px_12px_rgba(255,255,255,0.02)] align-middle cursor-default hover:scale-[1.02] transition-transform duration-300">
+            <i data-lucide="star" class="w-3 h-3 text-[#FFFFFF]"></i>
+            <span>"টাকা ছাড়া জীবন অচল, স্মার্ট ইনকামই আসল"</span>
+          </div>
+        </div>
+
+        <!-- Master Title with Space Grotesk elegant pairing -->
+        <h1 class="font-display font-extrabold text-3xl sm:text-5xl md:text-7xl text-white tracking-tight leading-[1.1] transition-all duration-300">
+          <span class="bg-gradient-to-r from-white via-slate-100 to-[#4FC3F7] bg-clip-text text-transparent">ডিজিটাল যুগের স্মার্ট ইনকাম সিস্টেম গড়ে তুলুন</span>
+        </h1>
+
+        <!-- Premium subtitle descriptive copy -->
+        <p class="text-[13px] sm:text-base md:text-lg text-slate-300/90 leading-relaxed font-sans font-light max-w-2xl mx-auto tracking-wide">
+          <span>প্রিমিয়াম ট্রেডিংভিউ ইন্ডিকেটর, ফরেক্স এডুকেশন এবং মেন্টরশিপের মাধ্যমে আপনার ডিজিটাল ক্যারিয়ার গড়ে তুলুন।</span>
+        </p>
+
+        <!-- Dynamic High-Fidelity Call-To-Action buttons -->
+        <div class="pt-6 flex flex-col sm:flex-row items-center justify-center gap-5">
+          <button onclick="alert('নিরাপদ লোকাল এনক্রিপশন সহ ডেমো শপটি চালু করা হচ্ছে')" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-[#00BFFF] to-[#4FC3F7] text-[#050816] font-black text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2.5 shadow-xl shadow-[#00BFFF]/20 hover:shadow-[#00BFFF]/45 transition-all duration-300 hover:scale-[1.02] active:scale-95 cursor-pointer relative overflow-hidden group">
+            <span class="relative z-10">✅ প্রিমিয়াম টুলস দেখুন</span>
+            <i data-lucide="chevron-right" class="w-4 h-4 transition-transform group-hover:translate-x-1 relative z-10"></i>
+            <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+          </button>
+          
+          <a href="https://t.me/bih_premium_intelligence_club" target="_blank" class="w-full sm:w-auto px-8 py-4 bg-white/5 hover:bg-white/10 text-white rounded-xl border border-white/10 text-xs sm:text-sm font-bold transition-all duration-300 flex items-center justify-center gap-2.5 cursor-pointer hover:border-[#00BFFF]/40 hover:shadow-[0_4px_25px_rgba(0,191,255,0.08)] active:scale-95">
+            <i data-lucide="send" class="w-4 h-4 text-brand-cyber"></i>
+            <span>✅ মেম্বারশিপ রিসোর্স লাভ করুন</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- INTERACTIVE VOLUMETRIC METRICS GRID (shimmers smoothly on hover) -->
+      <section class="mt-24 w-full">
+        <div class="w-full glossy-glass rounded-2xl p-8 grid grid-cols-2 md:grid-cols-4 gap-8 border border-white/10">
+          
+          <div class="text-center md:text-left space-y-1 hover:translate-y-[-2px] transition-transform duration-300">
+            <span class="block text-2xl sm:text-3xl font-extrabold text-white font-mono tracking-tight glow-text-sm">95%</span>
+            <span class="block text-[9px] uppercase font-bold tracking-widest text-slate-400">
+              <span>এসএমসি উইন রেট</span>
+            </span>
+          </div>
+
+          <div class="text-center md:text-left space-y-1 border-l border-white/5 pl-2 md:pl-6 hover:translate-y-[-2px] transition-transform duration-300">
+            <span class="block text-2xl sm:text-3xl font-extrabold text-[#4DA3FF] font-mono tracking-tight">৳ 5.6M+</span>
+            <span class="block text-[9px] uppercase font-bold tracking-widest text-[#4DA3FF]/80">
+              <span>ট্রেডার পেআউট জেনারেটেড</span>
+            </span>
+          </div>
+
+          <div class="text-center md:text-left space-y-1 border-l border-white/5 pl-2 md:pl-6 hover:translate-y-[-2px] transition-transform duration-300">
+            <span class="block text-2xl sm:text-3xl font-extrabold text-white font-mono tracking-tight">4,850+</span>
+            <span class="block text-[9px] uppercase font-bold tracking-widest text-slate-400">
+              <span>অ্যাক্টিভ প্রিমিয়াম মেম্বার</span>
+            </span>
+          </div>
+
+          <div class="text-center md:text-left space-y-1 border-l border-white/5 pl-2 md:pl-6 hover:translate-y-[-2px] transition-transform duration-300">
+            <span class="block text-2xl sm:text-3xl font-extrabold text-cyan-400 font-mono tracking-tight">12+</span>
+            <span class="block text-[9px] uppercase font-bold tracking-widest text-cyan-400/80">
+              <span>কোয়ান্ট ট্রেডিং মোড</span>
+            </span>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- THREE CORE ARCHITECTURAL PILLARS (Beautiful Glass Cards) -->
+      <section class="mt-16 space-y-8">
+        <div class="text-center">
+          <h2 class="font-display font-bold text-xl md:text-2xl text-white uppercase tracking-wider">
+            <span>প্রফেশনাল ট্রেডাররা কেন আমাদের বেছে নেন</span>
+          </h2>
+          <div class="w-16 h-1 bg-brand-cyber mx-auto mt-2 rounded"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          
+          <!-- Pillar 1 -->
+          <div class="p-8 rounded-2xl glossy-glass flex flex-col justify-between border border-white/10 hover:border-cyan-500/30 hover:shadow-cyan-500/10 transition-all duration-300 hover:scale-[1.015]">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center mb-6">
+                <i data-lucide="trending-up" class="w-6 h-6 text-cyan-400"></i>
+              </div>
+              <h3 class="text-white font-extrabold text-lg mb-3">
+                <span>প্রাতিষ্ঠানিক অ্যালগরিদম</span>
+              </h3>
+              <p class="text-xs text-slate-300 leading-relaxed font-light">
+                <span>কোনো অপ্রয়োজনীয় জটিল ইন্ডিকেটর নয়। আমাদের কাস্টম অ্যালগরিদমিক স্ক্রিপ্ট সরাসরি বড় ব্যাংকের রিটেইল স্টপ হান্টিং কান্ট্রি লেভেল চার্টে ফুটিয়ে তোলে।</span>
+              </p>
+            </div>
+          </div>
+
+          <!-- Pillar 2 -->
+          <div class="p-8 rounded-2xl glossy-glass flex flex-col justify-between border border-white/10 hover:border-blue-500/30 hover:shadow-blue-500/10 transition-all duration-300 hover:scale-[1.015]">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-6">
+                <i data-lucide="award" class="w-6 h-6 text-brand-pulse"></i>
+              </div>
+              <h3 class="text-white font-extrabold text-lg mb-3">
+                <span>বাংলা ও ইংরেজি একাডেমি গাইড</span>
+              </h3>
+              <p class="text-xs text-slate-300 leading-relaxed font-light">
+                <span>অপ্রয়োজনীয় তত্ত্ব বাদ দিয়ে সহজ বাঙালি ভাষায় সাজানো মাস্টারক্লাস লেকচার এবং ওয়ান-টু-ওয়ান গাইড যা সঠিক ট্রেডিংয়ের দ্রুত সিদ্ধান্ত নিতে প্রাইভেসী দেয়।</span>
+              </p>
+            </div>
+          </div>
+
+          <!-- Pillar 3 -->
+          <div class="p-8 rounded-2xl glossy-glass flex flex-col justify-between border border-white/10 hover:border-teal-500/30 hover:shadow-teal-500/10 transition-all duration-300 hover:scale-[1.015]">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center mb-6">
+                <i data-lucide="users" class="w-6 h-6 text-teal-400"></i>
+              </div>
+              <h3 class="text-white font-extrabold text-lg mb-3">
+                <span>প্রপ ফার্ম চ্যালেঞ্জ সফলতা গ্যারান্টি</span>
+              </h3>
+              <p class="text-xs text-slate-300 leading-relaxed font-light">
+                <span>আমরা শিখিয়ে দিই কীভাবে আপনি বিশ্বমানের ফান্ডিং প্রোভাইডারদের নিকট থেকে ৫০০০$ থেকে শুরু করে ১০০,০০০$ ডলার পর্যন্ত ক্যাপিটালের অ্যাক্সেস পাবেন।</span>
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- REVIEWS SECTION -->
+      <section class="mt-16 space-y-6">
+        <div class="text-center">
+          <h2 class="font-display font-bold text-xl uppercase tracking-wider text-slate-200">
+            <span>সদস্যদের চমৎকার মতামত</span>
+          </h2>
+          <div class="w-12 h-0.5 bg-brand-pulse mx-auto mt-2"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="p-6 rounded-xl glossy-glass border border-white/5 space-y-4">
+            <div class="flex items-center gap-1 text-yellow-400">
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            </div>
+            <p class="text-xs text-slate-300 italic leading-relaxed">
+              <span>"এসএমসি স্নাইপার দারুণ কাজ করে! ব্যবহারের প্রথম দিনেই গোল্ডের ওপর ১:৪ রিস্ক-রিওয়ার্ড রেশিওতে একটি পজিশন ধরি এবং অনেক প্রফিট করি।"</span>
+            </p>
+            <div class="border-t border-white/5 pt-3">
+              <span class="block text-xs font-bold text-white">সাঈদুর রহমান</span>
+              <span class="block text-[9px] text-[#00BFFF] uppercase tracking-wider font-sans">গোল্ড ট্রেডার</span>
+            </div>
+          </div>
+
+          <div class="p-6 rounded-xl glossy-glass border border-white/5 space-y-4">
+            <div class="flex items-center gap-1 text-yellow-400">
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            </div>
+            <p class="text-xs text-slate-300 italic leading-relaxed">
+              <span>"খুব চমৎকার সাপোর্ট! বাংলায় লেকচারগুলো অত্যন্ত সহজ, সাবলীল এবং কাঠামোগত ছিল, যা নতুনদের জন্য বোঝা একদম সহজ।"</span>
+            </p>
+            <div class="border-t border-white/5 pt-3">
+              <span class="block text-xs font-bold text-white">নাবিলা চৌধুরী</span>
+              <span class="block text-[9px] text-brand-pulse uppercase tracking-wider font-sans">পার্ট-টাইম ট্রেডার</span>
+            </div>
+          </div>
+
+          <div class="p-6 rounded-xl glossy-glass border border-white/5 space-y-4 md:col-span-2 lg:col-span-1">
+            <div class="flex items-center gap-1 text-yellow-400">
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            </div>
+            <p class="text-xs text-slate-300 italic leading-relaxed">
+              <span>"ভিআইপি সিগন্যাল ক্লাবের দারুন প্রশংসা করছি। মার্কেট মন্থর গেলেও তারা নিরাপদ মূলধন সংরক্ষণের দিকে নজর দেয়, যা তাদের প্রফেশনালিজম প্রমাণ করে।"</span>
+            </p>
+            <div class="border-t border-white/5 pt-3">
+              <span class="block text-xs font-bold text-white">ইমতিয়াজ আহমেদ</span>
+              <span class="block text-[9px] text-teal-400 uppercase tracking-wider font-sans">প্রপ ফার্ম ফান্ডেড ট্রেডার</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- PREMIUM COMPACT FOOTER -->
+    <footer class="w-full mt-24 border-t border-white/5 py-8 px-6 bg-[#02050e] relative z-40">
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+        
+        <div class="text-center md:text-left">
+          <span class="font-display font-black text-sm text-cyan-400 tracking-wider">BANGLADESH INCOME HUB</span>
+          <p class="text-[10px] text-slate-500 max-w-sm mt-1">
+            <span>অ্যালগরিদমিক ট্রেডিং কৌশল এবং কোয়ান্টিটেটিভ অ্যানালাইসিস টুলসের জন্য বাংলাদেশের বিশ্বস্ত প্ল্যাটফর্ম।</span>
+          </p>
+        </div>
+
+        <div class="flex gap-6 text-[11px] text-slate-400 tracking-wider font-sans font-bold">
+          <a href="#" class="hover:text-cyan-400 transition-colors">ডিসক্লেইমার</a>
+          <a href="#" class="hover:text-cyan-400 transition-colors">শর্তাবলী</a>
+          <a href="#" class="hover:text-cyan-400 transition-colors">টেলিগ্রাম</a>
+        </div>
+
+        <p class="text-[10px] text-slate-600 font-mono">
+          &copy; 2026 Bangladesh Income Hub. All Rights Reserved.
+        </p>
+
+      </div>
+    </footer>
+
+    <!-- DYNAMIC CYBER TELEGRAM SUPPORT WIDGET -->
+    <div id="telegram-widget-wrapper" class="fixed bottom-6 right-6 z-50">
+      
+      <!-- Popover Widget Window -->
+      <div id="telegram-popover" class="hidden mb-4 w-72 rounded-2xl glossy-glass border border-white/10 p-5 shadow-[0_10px_40px_rgba(0,191,255,0.15)] transition-all duration-300">
+        <div class="flex items-center gap-3 border-b border-white/5 pb-3">
+          <div class="relative">
+            <div class="w-10 h-10 rounded-full bg-[#00BFFF]/20 flex items-center justify-center border border-[#00BFFF]/40">
+              <i data-lucide="send" class="w-5 h-5 text-[#00E5FF]"></i>
+            </div>
+            <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-[#050816] rounded-full animate-pulse"></span>
+          </div>
+          <div>
+            <span class="block text-xs font-bold text-white">BIH প্রিমিয়াম সাপোর্ট</span>
+            <span class="block text-[9px] text-green-400 tracking-wide font-sans">
+              <span>● এখন অলনাইনে আছেন</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="py-3 text-xs text-slate-300 font-light leading-relaxed">
+          <span>লাইসেন্স কি, বিকাশ পারচেজ এবং মেম্বারশিপ সংক্রান্ত যেকোনো সাহায্যের জন্য আমাদের মেসেজ দিন!</span>
+        </div>
+
+        <a href="https://t.me/bangladesh_income_hub_admin" target="_blank" class="w-full py-2.5 bg-gradient-to-r from-brand-cyber to-brand-pulse text-brand-darkBg font-black text-xs rounded-xl flex items-center justify-center gap-2 shadow-lg hover:shadow-cyan-500/20 active:scale-95 transition-all">
+          <i data-lucide="send" class="w-3.5 h-3.5"></i>
+          <span>চ্যাট শুরু করুন</span>
+        </a>
+      </div>
+
+      <!-- Trigger Action Button with realistic pulsing energy ripple -->
+      <button id="telegram-trigger" class="w-12 h-12 rounded-full bg-[#4DA3FF] hover:bg-[#66E3FF] text-[#020512] flex items-center justify-center border border-white/15 cursor-pointer relative shadow-[0_4px_25px_rgba(77,163,255,0.3)] transition-all duration-300 select-none">
+        <span class="absolute inset-0 rounded-full bg-[#4DA3FF]/40 animate-ping opacity-75"></span>
+        <i data-lucide="send" class="w-5 h-5 relative z-10 transition-transform hover:scale-110"></i>
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- CORE SCRIPTS - INTERACTIVE THREE.JS AND TRANSLATION LOGICS -->
+  <script>
+    // Register Lucide Icons on DOM Load
+    window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+    });
+
+    // 2. Telegram Support Window Interaction Toggle
+    const tgTrigger = document.getElementById('telegram-trigger');
+    const tgPopover = document.getElementById('telegram-popover');
+    tgTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      tgPopover.classList.toggle('hidden');
+    });
+    // Close on clicking elsewhere
+    document.addEventListener('click', (e) => {
+      if (!tgPopover.classList.contains('hidden') && !e.target.closest('#telegram-widget-wrapper')) {
+        tgPopover.classList.add('hidden');
+      }
+    });
+
+    // 3. Cinematic Mouse Cursor Following System
+    const cursorPointer = document.getElementById('custom-pointer');
+    const cursorDot = document.getElementById('custom-dot');
+    let mouseX = 0, mouseY = 0;
+    let ballX = 0, ballY = 0;
+    let dotX = 0, dotY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    // Smooth lerp function for organic flow and Apple-level inertia
+    function animateCursor() {
+      // Outer pointer follow with slow delay
+      ballX += (mouseX - ballX) * 0.12;
+      ballY += (mouseY - ballY) * 0.12;
+      cursorPointer.style.left = ballX + 'px';
+      cursorPointer.style.top = ballY + 'px';
+
+      // Inner dot follow with super-crisp rapid delay
+      dotX += (mouseX - dotX) * 0.35;
+      dotY += (mouseY - dotY) * 0.35;
+      cursorDot.style.left = dotX + 'px';
+      cursorDot.style.top = dotY + 'px';
+
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // Hover scales effect on interactive components
+    const linksAndBtns = document.querySelectorAll('a, button, select');
+    linksAndBtns.forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursorPointer.style.width = '48px';
+        cursorPointer.style.height = '48px';
+        cursorPointer.style.borderColor = '#00BFFF';
+        cursorPointer.style.backgroundColor = 'rgba(0, 191, 255, 0.08)';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursorPointer.style.width = '32px';
+        cursorPointer.style.height = '32px';
+        cursorPointer.style.borderColor = 'rgba(0, 229, 255, 0.4)';
+        cursorPointer.style.backgroundColor = 'rgba(0, 229, 255, 0.03)';
+      });
+    });
+
+    // 4. POWERFUL INFINITE 3D FOREX CANDLESTICKS BACKDROP SYSTEM
+    const canvas = document.getElementById('forex-bg-canvas');
+    const scene = new THREE.Scene();
+    
+    // Subtle cyber deep space background fog
+    scene.fog = new THREE.FogExp2(0x050816, 0.018);
+
+    // Camera with widescreen perspective settings
+    const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0, 32);
+
+    const renderer = new THREE.WebGLRenderer({
+      canvas: canvas,
+      antialias: true,
+      alpha: true,
+      powerPreference: "high-performance"
+    });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    // Global ambient glows representing market floor light bounces
+    const ambientLight = new THREE.AmbientLight(0x060f25, 0.8);
+    scene.add(ambientLight);
+
+    const directionalLight1 = new THREE.DirectionalLight(0x00E5FF, 1.2);
+    directionalLight1.position.set(20, 40, 20);
+    scene.add(directionalLight1);
+
+    const directionalLight2 = new THREE.DirectionalLight(0x4FC3F7, 0.6);
+    directionalLight2.position.set(-20, -30, 10);
+    scene.add(directionalLight2);
+
+    // Group wrapper to move physical structure with subtle tilt
+    const mainTorus = new THREE.Group();
+    scene.add(mainTorus);
+
+    const candleMaterials = [];
+    const candleGeometries = [];
+    const pulsingLights = [];
+    const cyberRays = [];
+
+    // Structural model list representing our forex depth elements
+    const candlesData = [
+      { x: -8.5, z: -3.5, open: -3.4, close: -1.8, high: 0.8, low: -4.8, type: 'bull', hasRay: false, layer: 1, cycle: 18 },
+      { x: -5.8, z: -1.2, open: -1.8, close: 1.2,  high: 3.2, low: -2.4, type: 'bull', hasRay: true,  layer: 2, cycle: 23 },
+      { x: -3.0, z: 1.6,  open: 1.2,  close: -0.4, high: 1.9, low: -1.5, type: 'bear', hasRay: false, layer: 3, cycle: 31 },
+      { x: 0.0,  z: 3.5,  open: -0.4, close: 4.8,  high: 6.8, low: -2.0, type: 'bull', hasRay: true,  layer: 4, cycle: 27 },  
+      { x: 3.0,  z: 1.2,  open: 4.8,  close: 2.6,  high: 5.4, low: 1.6,  type: 'bear', hasRay: false, layer: 3, cycle: 42 },
+      { x: 5.8,  z: -1.5, open: 2.6,  close: 6.2,  high: 8.2, low: 1.0,  type: 'bull', hasRay: true,  layer: 2, cycle: 37 },  
+      { x: 8.5,  z: -3.8, open: 6.2,  close: 9.4,  high: 11.4, low: 4.6, type: 'bull', hasRay: false, layer: 1, cycle: 47 }
+    ];
+
+    const wickMaterial = new THREE.MeshPhysicalMaterial({
+      color: 0x4FC3F7,
+      roughness: 0.1,
+      metalness: 0.8,
+      clearcoat: 1.0,
+      emissive: 0x00E5FF,
+      emissiveIntensity: 0.3
+    });
+    candleMaterials.push(wickMaterial);
+
+    const individualCandles = [];
+
+    candlesData.forEach((data, index) => {
+      const bodyHeight = Math.max(Math.abs(data.close - data.open), 0.4);
+      const bodyY = (data.open + data.close) / 2;
+      const wickHeight = data.high - data.low;
+      const wickY = (data.high + data.low) / 2;
+
+      const candleGroup = new THREE.Group();
+      candleGroup.position.set(data.x, 0, data.z);
+
+      const isBull = data.type === 'bull';
+      const depthRatio = (data.z + 4) / 8; // Normalized depth value from 0 (back) to 1 (front)
+
+      // Physical Material properties optimized per layer for extreme volumetric separation (Depth of Field)
+      const uniqueBodyMaterial = new THREE.MeshPhysicalMaterial({
+        color: isBull ? 0x00E5FF : 0xffffff,
+        roughness: 0.15 - (depthRatio * 0.1),
+        transmission: 0.78 + (depthRatio * 0.14),
+        thickness: 1.2 + (depthRatio * 1.8),
+        clearcoat: 0.4 + (depthRatio * 0.6),
+        clearcoatRoughness: 0.12 - (depthRatio * 0.1),
+        ior: 1.45 + (depthRatio * 0.15),
+        transparent: true,
+        opacity: 0.45 + (depthRatio * 0.45), // crisp foreground, faint elements in depth
+        emissive: isBull ? 0x00BFFF : 0x4FC3F7,
+        emissiveIntensity: 0.2 + (depthRatio * 0.4),
+      });
+      candleMaterials.push(uniqueBodyMaterial);
+
+      // 1. Candlestick Main Body Box
+      const bodyGeo = new THREE.BoxGeometry(1.6, bodyHeight, 1.6);
+      candleGeometries.push(bodyGeo);
+      const bodyMesh = new THREE.Mesh(bodyGeo, uniqueBodyMaterial);
+      bodyMesh.position.y = bodyY;
+      candleGroup.add(bodyMesh);
+
+      // 2. High-Tech Edge Wire Outline
+      const highlightWireGeo = new THREE.BoxGeometry(1.63, bodyHeight + 0.03, 1.63);
+      candleGeometries.push(highlightWireGeo);
+      const uniqueWireMat = new THREE.MeshBasicMaterial({
+        color: isBull ? 0x00E5FF : 0xFFFFFF,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.12 + (depthRatio * 0.3),
+        blending: THREE.AdditiveBlending
+      });
+      candleMaterials.push(uniqueWireMat);
+      const wireMesh = new THREE.Mesh(highlightWireGeo, uniqueWireMat);
+      bodyMesh.add(wireMesh);
+
+      // 3. Volumetric Neon Bloom Sleeve
+      const bloomSleeveGeo = new THREE.BoxGeometry(1.78, bodyHeight + 0.18, 1.78);
+      candleGeometries.push(bloomSleeveGeo);
+      const uniqueBloomSleeveMat = new THREE.MeshBasicMaterial({
+        color: isBull ? 0x00BFFF : 0x4FC3F7,
+        transparent: true,
+        opacity: 0.03 + (depthRatio * 0.07),
+        blending: THREE.AdditiveBlending,
+        side: THREE.DoubleSide
+      });
+      candleMaterials.push(uniqueBloomSleeveMat);
+      const bloomSleeve = new THREE.Mesh(bloomSleeveGeo, uniqueBloomSleeveMat);
+      bodyMesh.add(bloomSleeve);
+
+      // 4. Center cybernetic wick rod
+      const wickGeo = new THREE.CylinderGeometry(0.08, 0.08, wickHeight, 8);
+      candleGeometries.push(wickGeo);
+      const wickMesh = new THREE.Mesh(wickGeo, wickMaterial);
+      wickMesh.position.y = wickY;
+      candleGroup.add(wickMesh);
+
+      // 5. Glowing extreme tops and bottoms (wick flares)
+      const flareGeo = new THREE.SphereGeometry(0.24, 16, 16);
+      candleGeometries.push(flareGeo);
+      const uniqueFlareMat = new THREE.MeshBasicMaterial({
+        color: isBull ? 0x00FFFF : 0xFFFFFF,
+        transparent: true,
+        opacity: 0.4 + (depthRatio * 0.45),
+        blending: THREE.AdditiveBlending
+      });
+      candleMaterials.push(uniqueFlareMat);
+
+      const topFlare = new THREE.Mesh(flareGeo, uniqueFlareMat);
+      topFlare.position.y = data.high;
+      candleGroup.add(topFlare);
+
+      const bottomFlare = new THREE.Mesh(flareGeo, uniqueFlareMat);
+      bottomFlare.position.y = data.low;
+      candleGroup.add(bottomFlare);
+
+      // 6. Pointlight inside glass structure
+      const lightColor = isBull ? 0x00E5FF : 0xCFD8DC;
+      const cPointLight = new THREE.PointLight(lightColor, 1.5 + (depthRatio * 1.5), 14);
+      cPointLight.position.set(0, bodyY, 0);
+      candleGroup.add(cPointLight);
+
+      pulsingLights.push({
+        light: cPointLight,
+        baseIntensity: isBull ? (1.5 + depthRatio * 1.5) : (1.0 + depthRatio * 1.0),
+        speed: 1.2 + (index * 0.15),
+        phase: index * 0.8
+      });
+
+      // 7. Light Rays for breakout momentum candles
+      if (data.hasRay) {
+        const rayLength = 32;
+        const rayGeo = new THREE.CylinderGeometry(0.02, 0.03, rayLength, 8, 1, true);
+        const rayMat = new THREE.MeshBasicMaterial({
+          color: isBull ? 0x00E5FF : 0x4FC3F7,
+          transparent: true,
+          opacity: 0.08 + (depthRatio * 0.07),
+          blending: THREE.AdditiveBlending,
+          side: THREE.DoubleSide
+        });
+        const rayMesh = new THREE.Mesh(rayGeo, rayMat);
+        rayMesh.position.set(0, data.high + (rayLength / 2), 0);
+        candleGroup.add(rayMesh);
+
+        cyberRays.push({
+          mesh: rayMesh,
+          maxOpacity: 0.10 + (depthRatio * 0.06),
+          index: index
+        });
+      }
+
+      mainTorus.add(candleGroup);
+
+      individualCandles.push({
+        group: candleGroup,
+        bodyMesh,
+        wireMesh,
+        bloomSleeve,
+        wickMesh,
+        topFlare,
+        bottomFlare,
+        baseX: data.x,
+        baseY: 0,
+        baseZ: data.z,
+        layer: data.layer,
+        cycle: data.cycle,
+        phaseX: index * 1.37,
+        phaseY: index * 2.13,
+        phaseZ: index * 0.79,
+        phaseRot: index * 3.41,
+        phaseGlow: index * 4.93
+      });
+    });
+
+    // 5. UNLIMITED PARTICLES ENGINE
+    const particleCount = 130;
+    const particleGeometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
+    const pSpeeds = [];
+
+    for (let i = 0; i < particleCount; i++) {
+      // Large scatter pattern spanning coordinates elegantly
+      positions[i * 3] = (Math.random() - 0.5) * 65;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 45;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 35 - 15; // deep behind the hero panel
+      pSpeeds.push(0.3 + Math.random() * 0.85);
+    }
+    particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+    // Star texture generator using clean procedurals
+    const canvasStar = document.createElement('canvas');
+    canvasStar.width = 16;
+    canvasStar.height = 16;
+    const ctx = canvasStar.getContext('2d');
+    const grad = ctx.createRadialGradient(8, 8, 0, 8, 8, 8);
+    grad.addColorStop(0, 'rgba(255, 255, 255, 1)');
+    grad.addColorStop(0.3, 'rgba(0, 229, 255, 0.8)');
+    grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 16, 16);
+    const starTex = new THREE.CanvasTexture(canvasStar);
+
+    const particleMaterial = new THREE.PointsMaterial({
+      size: 0.35,
+      map: starTex,
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      opacity: 0.65,
+      depthWrite: false
+    });
+    const particleSystem = new THREE.Points(particleGeometry, particleMaterial);
+    scene.add(particleSystem);
+
+    // Dynamic grid segments
+    const linesCount = 14;
+    const lineSegmentsPositions = [];
+    for (let i = 0; i < linesCount; i++) {
+      const zVal = (Math.random() - 0.5) * 20 - 15;
+      const xValLeft = -25;
+      const xValRight = 25;
+      const yVal = (Math.random() - 0.5) * 15;
+
+      lineSegmentsPositions.push(xValLeft, yVal, zVal);
+      lineSegmentsPositions.push(xValRight, yVal, zVal);
+    }
+
+    const lineSegmentsGeometry = new THREE.BufferGeometry();
+    lineSegmentsGeometry.setAttribute('position', new THREE.Float32BufferAttribute(lineSegmentsPositions, 3));
+    const lineSegmentsMaterial = new THREE.LineBasicMaterial({
+      color: 0x00E5FF,
+      transparent: true,
+      opacity: 0.05,
+      blending: THREE.AdditiveBlending
+    });
+    const marketGridLines = new THREE.LineSegments(lineSegmentsGeometry, lineSegmentsMaterial);
+    mainTorus.add(marketGridLines);
+
+    // Mouse Tracking values for standard parallax updates
+    let mouseNormX = 0;
+    let mouseNormY = 0;
+    let smoothMouseX = 0;
+    let smoothMouseY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseNormX = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseNormY = -(e.clientY / window.innerHeight) * 2 + 1;
+    });
+
+    const clock = new THREE.Clock();
+
+    // 6. ANIMATION TICK LOOP - GPU ACCELERATED
+    function renderFrame() {
+      requestAnimationFrame(renderFrame);
+
+      const elapsedTime = clock.getElapsedTime();
+
+      // Mouse smoothing lerp
+      smoothMouseX += (mouseNormX - smoothMouseX) * 0.08;
+      smoothMouseY += (mouseNormY - smoothMouseY) * 0.08;
+
+      // Slowly rotate the global sculpture group with responsive mouse shifts
+      mainTorus.rotation.y = (elapsedTime * 0.015) + (smoothMouseX * 0.32);
+      mainTorus.rotation.x = (elapsedTime * 0.008) - (smoothMouseY * 0.22);
+      mainTorus.rotation.z = Math.sin(elapsedTime * 0.05) * 0.02;
+
+      // Subtle volumetric group breathing cycle
+      mainTorus.position.y = -2 + Math.sin(elapsedTime * 0.3) * 0.2;
+
+      // Update individual candle positions under unique, asynchronous cycles
+      individualCandles.forEach((c) => {
+        let speedFactor = 1.0;
+        let ampFactorX = 0.4;
+        let ampFactorY = 0.3;
+        let ampFactorZ = 0.5;
+        let rotFactor = 0.08;
+
+        // Parallax speed adjustments by layer depth
+        switch (c.layer) {
+          case 1: // Background tier (extremely slow)
+            speedFactor = 0.55;
+            ampFactorX = 0.15;
+            ampFactorY = 0.15;
+            ampFactorZ = 0.2;
+            rotFactor = 0.03;
+            break;
+          case 2: // Second tier
+            speedFactor = 0.8;
+            ampFactorX = 0.25;
+            ampFactorY = 0.22;
+            ampFactorZ = 0.35;
+            rotFactor = 0.06;
+            break;
+          case 3: // Middle tier
+            speedFactor = 1.1;
+            ampFactorX = 0.45;
+            ampFactorY = 0.35;
+            ampFactorZ = 0.55;
+            rotFactor = 0.10;
+            break;
+          case 4: // Front tier (fastest responsiveness)
+            speedFactor = 1.4;
+            ampFactorX = 0.65;
+            ampFactorY = 0.50;
+            ampFactorZ = 0.80;
+            rotFactor = 0.15;
+            break;
+        }
+
+        // Apply angular cycles
+        const freqBase = (2 * Math.PI) / c.cycle;
+        const tX = elapsedTime * freqBase * speedFactor + c.phaseX;
+        const tY = elapsedTime * (freqBase * 1.15) * speedFactor + c.phaseY;
+        const tZ = elapsedTime * (freqBase * 0.85) * speedFactor + c.phaseZ;
+        const tRot = elapsedTime * (freqBase * 0.5) + c.phaseRot;
+        const tGlow = elapsedTime * (freqBase * 2.5) + c.phaseGlow;
+
+        // Custom organic drifts
+        const dx = Math.sin(tX) * ampFactorX + Math.cos(tX * 0.43) * (ampFactorX * 0.5);
+        const dy = Math.cos(tY) * ampFactorY + Math.sin(tY * 0.51) * (ampFactorY * 0.4);
+        const dz = Math.sin(tZ) * ampFactorZ + Math.cos(tZ * 0.33) * (ampFactorZ * 0.6);
+
+        c.group.position.x = c.baseX + dx;
+        c.group.position.y = c.baseY + dy;
+        c.group.position.z = c.baseZ + dz;
+
+        // Soft rotations
+        c.group.rotation.y = Math.sin(tRot) * rotFactor + Math.cos(tRot * 0.37) * (rotFactor * 0.4);
+        c.group.rotation.x = Math.cos(tRot * 0.85) * (rotFactor * 0.5);
+
+        // Volumetric Glow pulsing
+        const bodyMat = c.bodyMesh.material;
+        const depthRatio = (c.baseZ + 4) / 8;
+        const baseEmissiveIntensity = 0.2 + (depthRatio * 0.4);
+        bodyMat.emissiveIntensity = baseEmissiveIntensity + Math.sin(tGlow) * 0.15;
+
+        // Bloom sleeve expansions
+        const sleevePulseX = 1.0 + Math.sin(tGlow * 0.77) * 0.08;
+        const sleevePulseY = 1.0 + Math.cos(tGlow * 0.63) * 0.04;
+        c.bloomSleeve.scale.set(sleevePulseX, sleevePulseY, sleevePulseX);
+
+        const sleeveMat = c.bloomSleeve.material;
+        sleeveMat.opacity = (0.03 + (depthRatio * 0.07)) + Math.sin(tGlow * 1.2) * 0.03;
+
+        // Edge highlights shimmers
+        const wireMat = c.wireMesh.material;
+        wireMat.opacity = (0.12 + (depthRatio * 0.3)) + Math.cos(tGlow * 1.5) * 0.09;
+
+        // Flare indicators pulsing
+        const flarePulse = 0.8 + Math.sin(tGlow * 2.1) * 0.3;
+        c.topFlare.scale.set(flarePulse, flarePulse, flarePulse);
+        c.bottomFlare.scale.set(flarePulse * 0.9, flarePulse * 0.9, flarePulse * 0.9);
+      });
+
+      // Pointlight pulses
+      pulsingLights.forEach((item) => {
+        item.light.intensity = item.baseIntensity + Math.sin(elapsedTime * item.speed + item.phase) * (item.baseIntensity * 0.25);
+      });
+
+      // Breakout momentum rays
+      cyberRays.forEach((item) => {
+        const factor = 1.0 + Math.sin(elapsedTime * 1.5 + item.index) * 0.1;
+        item.mesh.scale.set(factor, 1.0, factor);
+        item.mesh.material.opacity = item.maxOpacity + Math.sin(elapsedTime * 1.8 + item.index) * 0.03;
+      });
+
+      // Flow field particles upwards drift
+      const positionsArr = particleSystem.geometry.attributes.position.array;
+      for (let i = 0; i < particleCount; i++) {
+        const speed = pSpeeds[i];
+        positionsArr[i * 3 + 1] += speed * 0.15;
+
+        // Horizontal turbulence current
+        const yPos = positionsArr[i * 3 + 1];
+        positionsArr[i * 3] += Math.sin(elapsedTime * 0.1 + yPos * 0.04 + i) * 0.007;
+        positionsArr[i * 3 + 2] += Math.cos(elapsedTime * 0.06 + yPos * 0.03 + i) * 0.004;
+
+        // Loop boundaries reset
+        if (positionsArr[i * 3 + 1] > 24) {
+          positionsArr[i * 3 + 1] = -24;
+          positionsArr[i * 3] = (Math.random() - 0.5) * 65;
+          positionsArr[i * 3 + 2] = (Math.random() - 0.5) * 35 - 15;
+        }
+      }
+      particleSystem.geometry.attributes.position.needsUpdate = true;
+
+      // Floating cinematic camera drift
+      const camDriftTime = elapsedTime * 0.08;
+      const driftX = Math.sin(camDriftTime) * 1.4 + Math.cos(camDriftTime * 0.5) * 0.6;
+      const driftY = Math.cos(camDriftTime * 0.75) * 1.0 + Math.sin(camDriftTime * 0.4) * 0.4;
+      const driftZ = Math.sin(camDriftTime * 0.3) * 0.7; // zoom breathe
+
+      // Combine drift + standard mouse reactive feedback
+      const cameraTargetX = smoothMouseX * 10 + driftX;
+      const cameraTargetY = -smoothMouseY * 8 + driftY;
+      const cameraTargetZ = 32 + driftZ;
+
+      camera.position.x += (cameraTargetX - camera.position.x) * 0.05;
+      camera.position.y += (cameraTargetY - camera.position.y) * 0.05;
+      camera.position.z += (cameraTargetZ - camera.position.z) * 0.05;
+      camera.lookAt(new THREE.Vector3(0, -1, -4));
+
+      renderer.render(scene, camera);
+    }
+    renderFrame();
+
+    // Resize Handler
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>

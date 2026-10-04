@@ -1,0 +1,253 @@
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap');
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+@theme {
+  --font-sans: "Hind Siliguri", "Inter", "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Sora", "Clash Display", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+/* Luxury Typographic Resets */
+body {
+  font-family: var(--font-sans);
+  letter-spacing: -0.01em;
+  line-height: 1.6;
+  background-color: #01030c;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+}
+
+/* Custom Cinematic Keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-12px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slideIn {
+  animation: slideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #010208;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(77, 163, 255, 0.4);
+}
+
+/* ==========================================================================
+   PREMIUM FINTECH CRYSTAL GLASSMORPHISM & INTERACTIVE HOVER SHIFTS
+   ========================================================================== */
+
+.glossy-glass {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(13, 22, 54, 0.45) 50%, rgba(2, 6, 23, 0.72) 100%) !important;
+  backdrop-filter: blur(28px) saturate(220%) contrast(1.1) brightness(1.08) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(220%) contrast(1.1) brightness(1.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  box-shadow: 
+    0 25px 50px -15px rgba(0, 0, 0, 0.85),
+    0 0 30px -5px rgba(6, 182, 212, 0.1),
+    inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.45),
+    inset 0 0 12px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.6) !important;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.glossy-glass::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(6, 182, 212, 0.03) 20%,
+    rgba(255, 255, 255, 0.18) 50%,
+    rgba(6, 182, 212, 0.03) 80%,
+    transparent
+  );
+  transform: skewX(-25deg);
+  pointer-events: none;
+  transition: all 0.75s ease;
+  opacity: 0.8;
+}
+
+.glossy-glass:hover::before {
+  left: 125%;
+  transition: all 0.75s ease;
+}
+
+/* Base interactive list targeting primary containers */
+[id^="featured_prod_"],
+[id^="service_card_"],
+[id^="course_card_"],
+[id^="approved_review_"],
+[id^="signal_card_"],
+[id^="pricing_detail_"],
+[id^="hero_premium_glasscard"],
+[id^="secured_badge"],
+[id^="telegram_quick_popup_modal"],
+[id^="cat_grid_item_"],
+.glass-panel-interactive {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  backdrop-filter: blur(24px) saturate(200%) contrast(1.05) brightness(1.04);
+  -webkit-backdrop-filter: blur(24px) saturate(200%) contrast(1.05) brightness(1.04);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(8, 14, 38, 0.5) 60%, rgba(2, 5, 18, 0.8) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 
+    0 15px 35px 0 rgba(0, 0, 0, 0.75),
+    inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* Subtle backdrop-filter shift and border glow intensity increase on hover */
+[id^="featured_prod_"]:hover,
+[id^="service_card_"]:hover,
+[id^="course_card_"]:hover,
+[id^="approved_review_"]:hover,
+[id^="signal_card_"]:hover,
+[id^="pricing_detail_"]:hover,
+[id^="hero_premium_glasscard"]:hover,
+[id^="telegram_quick_popup_modal"]:hover,
+[id^="cat_grid_item_"]:hover,
+.glass-panel-interactive:hover {
+  backdrop-filter: blur(30px) saturate(260%) brightness(1.12) contrast(1.1) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(260%) brightness(1.12) contrast(1.1) !important;
+  border-color: rgba(255, 255, 255, 0.45) !important;
+  box-shadow: 
+    0 25px 60px -10px rgba(0, 0, 0, 0.9),
+    0 0 35px 6px rgba(6, 182, 212, 0.25),
+    0 0 15px -2px rgba(168, 85, 247, 0.2),
+    inset 0 1.5px 3px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.6) !important;
+  transform: translateY(-4px) !important;
+}
+
+/* Fine-grain noise/grain overlay for elite tactility */
+.glossy-glass::after,
+[id^="featured_prod_"]::after,
+[id^="service_card_"]::after,
+[id^="course_card_"]::after,
+[id^="approved_review_"]::after,
+[id^="signal_card_"]::after,
+[id^="pricing_detail_"]::after,
+[id^="hero_premium_glasscard"]::after,
+[id^="telegram_quick_popup_modal"]::after,
+[id^="cat_grid_item_"]::after,
+.glass-panel-interactive::after,
+[class*="bg-[#0B1F45]"]::after,
+[class*="bg-white/"]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.055; /* Ultra soft fine grain noise pattern */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  z-index: 5;
+  border-radius: inherit;
+}
+
+/* Master crystal glass overriding rules for any custom component styling */
+[class*="bg-[#0B1F45]"] {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(13, 26, 62, 0.38) 45%, rgba(2, 6, 22, 0.76) 100%) !important;
+  backdrop-filter: blur(28px) saturate(220%) contrast(1.1) brightness(1.05) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(220%) contrast(1.1) brightness(1.05) !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 
+    0 15px 40px 0 rgba(0, 0, 0, 0.8),
+    inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.38),
+    inset 0 -1.5px 1.5px 0 rgba(0, 0, 0, 0.6) !important;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+[class*="bg-[#0B1F45]"]:hover {
+  backdrop-filter: blur(34px) saturate(275%) contrast(1.16) brightness(1.12) !important;
+  -webkit-backdrop-filter: blur(34px) saturate(275%) contrast(1.16) brightness(1.12) !important;
+  border-color: rgba(255, 255, 255, 0.45) !important;
+  box-shadow: 
+    0 25px 60px -10px rgba(0, 0, 0, 0.95),
+    0 0 35px 5px rgba(6, 182, 212, 0.25),
+    inset 0 1.5px 3px 0 rgba(255, 255, 255, 0.58),
+    inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Enhancing standard low-density white backgrounds to crystal glass */
+[class*="bg-white/[0.01]"],
+[class*="bg-white/[0.02]"],
+[class*="bg-white/5"] {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%) !important;
+  backdrop-filter: blur(24px) saturate(200%) contrast(1.05) brightness(1.04) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(200%) contrast(1.05) brightness(1.04) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.35) !important;
+}
+
+[class*="bg-white/[0.01]"]:hover,
+[class*="bg-white/[0.02]"]:hover,
+[class*="bg-white/5"]:hover {
+  backdrop-filter: blur(28px) saturate(240%) brightness(1.08) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(240%) brightness(1.08) !important;
+  border-color: rgba(255, 255, 255, 0.45) !important;
+  box-shadow: 
+    0 15px 40px rgba(0, 0, 0, 0.6),
+    0 0 25px rgba(6, 182, 212, 0.15),
+    inset 0 1px 2px rgba(255, 255, 255, 0.45) !important;
+}
+
+/* Base button and interactive badges transitions */
+button:not([disabled]),
+a.cursor-pointer,
+[role="button"] {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Buttons glow intensity increase & dynamic backdrop-filter blur on hover */
+button:not([disabled]):hover,
+a.cursor-pointer:hover,
+[role="button"]:hover {
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+}
+

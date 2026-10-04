@@ -1,0 +1,6 @@
+{
+  "name": "Velocity Diecast Hub",
+  "description": "BDIH (Bangladesh Income Hub) — Premium digital education, trading indicators, courses, and digital product platform with Bangladesh-first payments and student LMS.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

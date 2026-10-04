@@ -1,0 +1,43 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile document containing authentication metadata.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "The unique user ID matching their Firebase Auth UID." },
+        "email": { "type": "string", "format": "email", "description": "User email address." },
+        "displayName": { "type": "string", "description": "User display name." },
+        "photoURL": { "type": "string", "description": "User avatar photo URL." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp." }
+      },
+      "required": ["userId", "email"]
+    },
+    "Favorite": {
+      "title": "Favorite",
+      "description": "A favorite tool or course saved by the user.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "The owner of the favorite item." },
+        "productId": { "type": "string", "description": "The ID of the favorited product." },
+        "productSlug": { "type": "string", "description": "The unique slug used for details routing." },
+        "productTitleEn": { "type": "string", "description": "Standard English title." },
+        "productTitleBn": { "type": "string", "description": "Standard Bangla title." },
+        "productImage": { "type": "string", "description": "Relative or absolute image path." },
+        "productType": { "type": "string", "description": "Product category/type identifier." },
+        "addedAt": { "type": "string", "format": "date-time", "description": "The timestamp when this dynamic favorite item was created." }
+      },
+      "required": ["userId", "productId", "productSlug", "productTitleEn", "productTitleBn", "productImage", "productType", "addedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile configuration store."
+    },
+    "/users/{userId}/favorites/{favId}": {
+      "schema": "Favorite",
+      "description": "User subcollection storing favorited tools, signals, and academy courses dynamically."
+    }
+  }
+}
